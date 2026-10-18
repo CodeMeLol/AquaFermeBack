@@ -140,9 +140,19 @@ Dans **pgAdmin** :
 3. **File → Open** → sélectionne `schema.sql`
 4. Clique sur **Execute ▶**
 
-Les 5 tables seront créées : `users`, `ponds`, `fish_operations`, `water_quality`, `tasks`.
+Le script crée les tables de base (`users`, `ponds`, `fish_operations`, `water_quality`, `tasks`) ainsi que les tables complémentaires (`daily_feed`, `feed_stock`, `notifications`).
 
-### 8. Lancer le serveur
+### 8. Insérer les données de test (optionnel)
+
+Depuis la racine du projet, lance le seed une seule fois :
+
+```bash
+npm run seed
+```
+
+Il crée les utilisateurs de test (`ibrahim`, `grace`, `lyly`) avec le mot de passe `projet_ecole_stage`, ainsi que des étangs, opérations, relevés et tâches.
+
+### 9. Lancer le serveur
 
 ```bash
 node src/index.js
