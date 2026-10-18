@@ -6,7 +6,7 @@
  * Ensuite, on exporte ce pool pour qu'il puisse être utilisé dans d'autres parties de l'application pour exécuter des requêtes SQL.
  */
 const { Pool } = require("pg");
-require("dotenv").config(); //
+require("dotenv").config({ quiet: true });
 
 const pool = new Pool({
   host: process.env.DB_HOST,

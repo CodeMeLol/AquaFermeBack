@@ -14,11 +14,11 @@
 
 const pool = require('./config/db');
 const bcrypt = require('bcrypt');
-require('dotenv').config();
 
 const seed = async () => {
     try {
         console.log('Début du seed...');
+        await pool.query('SELECT 1');
 
         // ───────────────────────────────────────────
         // USERS
@@ -120,11 +120,25 @@ const seed = async () => {
         console.log('  username: ibrahim | password: projet_ecole_stage');
         console.log('  username: grace   | password: projet_ecole_stage');
         console.log('  username: lyly    | password: projet_ecole_stage');
-
-        process.exit(0);
     } catch (error) {
-        console.error('Erreur lors du seed :', error.message);
-        process.exit(1);
+        const connectionErrors = Array.isArray(error.errors) ? error.errors : [];
+        const errorCodes = [error.code, ...connectionErrors.map(item => item.code)].filter(Boolean);
+
+        if (errorCodes.includes('ECONNREFUSED')) {
+            console.error(
+                'Connexion à PostgreSQL refusée (ECONNREFUSED). ' +
+                'Vérifie que PostgreSQL est démarré et que DB_HOST et DB_PORT dans .env sont corrects.'
+            );
+        } else {
+            const message = error.message || error.code || error.name || String(error);
+            console.error('Erreur lors du seed :', message);
+            for (const connectionError of connectionErrors) {
+                console.error('  Détail connexion :', connectionError.message || connectionError.code || connectionError.name);
+            }
+        }
+        process.exitCode = 1;
+    } finally {
+        await pool.end();
     }
 };
 
