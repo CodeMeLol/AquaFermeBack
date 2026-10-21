@@ -151,6 +151,11 @@ npm run seed
 ```
 
 Il crée les utilisateurs de test (`ibrahim`, `grace`, `lyly`) avec le mot de passe `projet_ecole_stage`, ainsi que des étangs, opérations, relevés et tâches.
+Pour réinitialiser uniquement les mots de passe de ces utilisateurs sans recréer les autres données :
+
+```bash
+npm run seed -- --users-only
+```
 
 ### 9. Lancer le serveur
 
